@@ -1,0 +1,12 @@
+R:\Documentos\Unal\7mo Semestre\SwArch\Proyecto\ms-rutas-backend\ms-rutas-backend.Data\bin\Debug\net5.0\ms-rutas-backend.Data.deps.json
+R:\Documentos\Unal\7mo Semestre\SwArch\Proyecto\ms-rutas-backend\ms-rutas-backend.Data\bin\Debug\net5.0\ms-rutas-backend.Data.dll
+R:\Documentos\Unal\7mo Semestre\SwArch\Proyecto\ms-rutas-backend\ms-rutas-backend.Data\bin\Debug\net5.0\ref\ms-rutas-backend.Data.dll
+R:\Documentos\Unal\7mo Semestre\SwArch\Proyecto\ms-rutas-backend\ms-rutas-backend.Data\bin\Debug\net5.0\ms-rutas-backend.Data.pdb
+R:\Documentos\Unal\7mo Semestre\SwArch\Proyecto\ms-rutas-backend\ms-rutas-backend.Data\obj\Debug\net5.0\ms-rutas-backend.Data.csprojAssemblyReference.cache
+R:\Documentos\Unal\7mo Semestre\SwArch\Proyecto\ms-rutas-backend\ms-rutas-backend.Data\obj\Debug\net5.0\ms-rutas-backend.Data.GeneratedMSBuildEditorConfig.editorconfig
+R:\Documentos\Unal\7mo Semestre\SwArch\Proyecto\ms-rutas-backend\ms-rutas-backend.Data\obj\Debug\net5.0\ms-rutas-backend.Data.AssemblyInfoInputs.cache
+R:\Documentos\Unal\7mo Semestre\SwArch\Proyecto\ms-rutas-backend\ms-rutas-backend.Data\obj\Debug\net5.0\ms-rutas-backend.Data.AssemblyInfo.cs
+R:\Documentos\Unal\7mo Semestre\SwArch\Proyecto\ms-rutas-backend\ms-rutas-backend.Data\obj\Debug\net5.0\ms-rutas-backend.Data.csproj.CoreCompileInputs.cache
+R:\Documentos\Unal\7mo Semestre\SwArch\Proyecto\ms-rutas-backend\ms-rutas-backend.Data\obj\Debug\net5.0\ms-rutas-backend.Data.dll
+R:\Documentos\Unal\7mo Semestre\SwArch\Proyecto\ms-rutas-backend\ms-rutas-backend.Data\obj\Debug\net5.0\ref\ms-rutas-backend.Data.dll
+R:\Documentos\Unal\7mo Semestre\SwArch\Proyecto\ms-rutas-backend\ms-rutas-backend.Data\obj\Debug\net5.0\ms-rutas-backend.Data.pdb

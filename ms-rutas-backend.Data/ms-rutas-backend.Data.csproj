@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>ms_rutas_backend.Data</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Neo4j.Driver" Version="4.2.0" />
+    <PackageReference Include="Neo4j.Driver.Simple" Version="4.2.0" />
+  </ItemGroup>
+
+</Project>

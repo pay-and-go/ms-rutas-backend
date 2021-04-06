@@ -1,0 +1,979 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Descripcion del API para el submodulo de rutas",
+    "version": "1.0.0",
+    "title": "Ms-rutas"
+  },
+  "host": "100.26.181.55:80",
+  "tags": [
+    {
+      "name": "Nodo Ruta",
+      "description": "CRUD de las rutas"
+    },
+    {
+      "name": "Nodo Auto",
+      "description": "CRUD del nodo auto"
+    },
+    {
+      "name": "Nodo Dia",
+      "description": "Creacion del nodo dia de  viaje"
+    },
+    {
+      "name": "Relacion Dia-Ruta",
+      "description": "CRUD de la relacion dia-ruta "
+    },
+    {
+      "name": "Relacion Auto-Dia",
+      "description": "CRUD de la relacion auto-dia"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/noderoute/createRoute": {
+      "post": {
+        "tags": [
+          "Nodo Ruta"
+        ],
+        "summary": "Agregar una nueva ruta en la base de datos",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Objeto de ruta que va a ser guardado",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "idRoute": {
+                  "type": "string"
+                },
+                "startCity": {
+                  "type": "string"
+                },
+                "arrivalCity": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "latitudeStart": {
+                  "type": "string"
+                },
+                "longitudeStart": {
+                  "type": "string"
+                },
+                "latitudeEnd": {
+                  "type": "string"
+                },
+                "longitudeEnd": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "idNodeRoute": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/noderoute/getRoutes": {
+      "get": {
+        "tags": [
+          "Nodo Ruta"
+        ],
+        "summary": "Consultar todos las rutas en la base de datos",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "idRoute": {
+                  "type": "string"
+                },
+                "startCity": {
+                  "type": "string"
+                },
+                "arrivalCity": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "latitudeStart": {
+                  "type": "string"
+                },
+                "longitudeStart": {
+                  "type": "string"
+                },
+                "latitudeEnd": {
+                  "type": "string"
+                },
+                "longitudeEnd": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/noderoute/getRouteById": {
+      "post": {
+        "tags": [
+          "Nodo Ruta"
+        ],
+        "summary": "Consulta una ruta con su id",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Objeto de ruta que va a ser consultado",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "idRoute": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "idRoute": {
+                  "type": "string"
+                },
+                "startCity": {
+                  "type": "string"
+                },
+                "arrivalCity": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "latitudeStart": {
+                  "type": "string"
+                },
+                "longitudeStart": {
+                  "type": "string"
+                },
+                "latitudeEnd": {
+                  "type": "string"
+                },
+                "longitudeEnd": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/noderoute/getRouteIdById": {
+      "post": {
+        "tags": [
+          "Nodo Ruta"
+        ],
+        "summary": "Consulta una ruta con su id",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Objeto de ruta que va a ser consultado",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "idRoute": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "idNodeRoute": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/noderoute/modifyRoute": {
+      "put": {
+        "tags": [
+          "Nodo Ruta"
+        ],
+        "summary": "Modificar una ruta con el id",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Objeto de ruta que va a ser modificado",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "idRoute": {
+                  "type": "string"
+                },
+                "startCity": {
+                  "type": "string"
+                },
+                "arrivalCity": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "latitudeStart": {
+                  "type": "string"
+                },
+                "longitudeStart": {
+                  "type": "string"
+                },
+                "latitudeEnd": {
+                  "type": "string"
+                },
+                "longitudeEnd": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/nodoruta/deleteRoute": {
+      "delete": {
+        "tags": [
+          "Nodo Ruta"
+        ],
+        "summary": "Eliminar una ruta con el id",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Objeto de ruta que va a ser modificado",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "idRoute": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/nodecar/createCar": {
+      "post": {
+        "tags": [
+          "Nodo Auto"
+        ],
+        "summary": "Agregar un nuevo auto en la base de datos",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Objeto auto que va a ser guardado",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "idOwner": {
+                  "type": "string"
+                },
+                "nameOwner": {
+                  "type": "string"
+                },
+                "licenseCar": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "idNodecar": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict"
+          }
+        }
+      }
+    },
+    "/nodecar/getCars": {
+      "get": {
+        "tags": [
+          "Nodo Auto"
+        ],
+        "summary": "Consultar todos los autos en la base de datos",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "idOwner": {
+                  "type": "string"
+                },
+                "nameOwner": {
+                  "type": "string"
+                },
+                "licenseCar": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "No existen autos"
+          }
+        }
+      }
+    },
+    "/nodecar/getIdCarbyLicense": {
+      "post": {
+        "tags": [
+          "Nodo Auto"
+        ],
+        "summary": "Obtener el id en base de datos de un auto por placa ",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Placa del auto que va a ser consultada",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "licenseCar": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "idNodeCar": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict"
+          }
+        }
+      }
+    },
+    "/nodecar/getCarbyLicense": {
+      "post": {
+        "tags": [
+          "Nodo Auto"
+        ],
+        "summary": "Obtener un auto segun la placa",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Placa del auto que va a ser consultada",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "licenseCar": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "idOwner": {
+                  "type": "string"
+                },
+                "nameOwner": {
+                  "type": "string"
+                },
+                "licenseCar": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict"
+          }
+        }
+      }
+    },
+    "/nodecar/modifyCar": {
+      "put": {
+        "tags": [
+          "Nodo Auto"
+        ],
+        "summary": "Modificar un auto con la placa del auto",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Objeto auto que va a ser modificado",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "idOwner": {
+                  "type": "string"
+                },
+                "nameOwner": {
+                  "type": "string"
+                },
+                "licenseCar": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/nodecar/deleteCar": {
+      "delete": {
+        "tags": [
+          "Nodo Auto"
+        ],
+        "summary": "Eliminar un auto por la placa",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Placa del auto que va a ser eliminado",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "licenseCar": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/nodedate/createDate": {
+      "post": {
+        "tags": [
+          "Nodo Dia"
+        ],
+        "summary": "Agregar una nuevo dia en la base de datos",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Objeto dia que va a ser guardado",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "dayTravel": {
+                  "type": "integer"
+                },
+                "monthTravel": {
+                  "type": "integer"
+                },
+                "yearTravel": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "idNodeDate": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/relationdateroute/createRelationDayRoute": {
+      "post": {
+        "tags": [
+          "Relacion Dia-Ruta"
+        ],
+        "summary": "Agregar una relacion entre un dia y una ruta",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Ids de los objetos dia y ruta",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "idRoute": {
+                  "type": "integer"
+                },
+                "idDay": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "idRelationDateRoute": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict"
+          }
+        }
+      }
+    },
+    "/relationdateroute/searchRelationDayRoute": {
+      "post": {
+        "tags": [
+          "Relacion Dia-Ruta"
+        ],
+        "summary": "Busca una relacion entre un dia y una ruta",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Ids de los objetos dia y ruta",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "idRoute": {
+                  "type": "integer"
+                },
+                "idDay": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "idRelationDateRoute": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict"
+          }
+        }
+      }
+    },
+    "/relationdateroute/deleteRelationDayRoute": {
+      "delete": {
+        "tags": [
+          "Relacion Dia-Ruta"
+        ],
+        "summary": "Elimina una relacion entre un dia y una ruta",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Ids de los objetos dia y ruta",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "idRoute": {
+                  "type": "integer"
+                },
+                "idDay": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/relationcardate/createRelationCarDay": {
+      "post": {
+        "tags": [
+          "Relacion Auto-Dia"
+        ],
+        "summary": "Crea una relacion entre un auto y un dia",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Ids de los objetos dia y auto",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "idCar": {
+                  "type": "integer"
+                },
+                "idDay": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "idRelationCarDate": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict"
+          }
+        }
+      }
+    },
+    "/relationcardate/getRelationByDate": {
+      "post": {
+        "tags": [
+          "Relacion Auto-Dia"
+        ],
+        "summary": "Obtiene la relacion entre auto y dia por propiedades",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Propiedades de los objetos dia y auto",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "licenseCar": {
+                  "type": "string"
+                },
+                "dayTravel": {
+                  "type": "integer"
+                },
+                "monthTravel": {
+                  "type": "integer"
+                },
+                "yearTravel": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "idRelationCarDate": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict"
+          }
+        }
+      }
+    },
+    "/relationcardate/getIdRelationCarDate": {
+      "post": {
+        "tags": [
+          "Relacion Auto-Dia"
+        ],
+        "summary": "Obtiene la relacion entre auto y dia por ids",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Ids de los objetos dia y auto",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "idCar": {
+                  "type": "integer"
+                },
+                "idDay": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "idRelationCarDate": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict"
+          }
+        }
+      }
+    },
+    "/relationcardate/getIdDatebyIdRelation/{id}": {
+      "get": {
+        "tags": [
+          "Relacion Auto-Dia"
+        ],
+        "summary": "Busca el nodo dia por el id relacion",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id de la relacion",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "idnodeDate": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/relationcardate/deleteRelationDayRoute": {
+      "delete": {
+        "tags": [
+          "Relacion Auto-Dia"
+        ],
+        "summary": "Elimina una relacion entre un dia y una auto",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Ids de los objetos dia y auto",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "idCar": {
+                  "type": "integer"
+                },
+                "idDay": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  }
+}
