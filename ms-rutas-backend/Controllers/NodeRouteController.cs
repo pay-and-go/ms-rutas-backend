@@ -10,8 +10,10 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Net.Http.Headers;
+using Microsoft.Extensions.Configuration;
 using ms_rutas_backend.Data.Models;
 using Neo4j.Driver;
+using Newtonsoft.Json;
 
 namespace ms_rutas_backend.Controllers
 {
@@ -19,16 +21,26 @@ namespace ms_rutas_backend.Controllers
     [ApiController]
     public class NodeRouteController : ControllerBase
     {
-        private IDriver _driver = GraphDatabase.Driver("bolt://localhost:7687", AuthTokens.Basic("neo4j", "pass"));
+        private static IConfiguration _iConfiguration;
+        private IDriver _driver;
+
+        public NodeRouteController(IConfiguration iConfiguration)
+        {
+            _iConfiguration = iConfiguration;
+            _driver = GraphDatabase.Driver(_iConfiguration.GetConnectionString("UriConnection"),
+                AuthTokens.Basic(_iConfiguration.GetConnectionString("UserConnection"),
+                    _iConfiguration.GetConnectionString("PasswordConnection")));
+        }
+
         public void Dispose()
         {
             _driver?.Dispose();
         }
 
-        [HttpPost ("createRoute")]
+        [HttpPost("createRoute")]
         public IActionResult createRoute([FromBody] NodeRoute route)
         {
-            using(var session = _driver.Session())
+            using (var session = _driver.Session())
             {
                 var response = session.WriteTransaction(tx =>
                 {
@@ -36,19 +48,27 @@ namespace ms_rutas_backend.Controllers
                                         "SET r.idRoute = $route.idRoute , r.startCity = $route.startCity, r.arrivalCity = $route.arrivalCity, r.description = $route.description, " +
                                         "r.latitudeStart = $route.latitudeStart, r.longitudeStart = $route.longitudeStart , r.latitudeEnd = $route.latitudeEnd, r.longitudeEnd = $route.longitudeEnd " +
                                         "RETURN id(r)",
-                        new { route });
+                        new {route});
                     int route_id = 0;
-                    foreach(var r in result)
+                    try
                     {
-                        try
+                        foreach (var r in result)
                         {
-                            route_id = r["id(r)"].As<int>();
-                        }
-                        catch (KeyNotFoundException e)
-                        {
-                            route_id = -1;
+                            try
+                            {
+                                route_id = r["id(r)"].As<int>();
+                            }
+                            catch (KeyNotFoundException e)
+                            {
+                                route_id = -1;
+                            }
                         }
                     }
+                    catch (ClientException e)
+                    {
+                        route_id = -1;
+                    }
+
                     return route_id;
                 });
                 if (response >= 0)
@@ -61,20 +81,27 @@ namespace ms_rutas_backend.Controllers
                 {
                     return Conflict("Esta ruta ya existe");
                 }
-                
             }
         }
 
-        
+
         [HttpPost("getRouteById")]
         public IActionResult getRouteById([FromBody] NodeRoute route)
         {
-            using(var session = _driver.Session())
+            using (var session = _driver.Session())
             {
-                var routes = session.ReadTransaction(tx => tx.Run("MATCH (r:Route) WHERE r.idRoute = $route.idRoute RETURN r", new { route }).ToList());
-                if(routes.Count > 0)
+                var routes = session.ReadTransaction(tx =>
+                    tx.Run("MATCH (r:Route) WHERE r.idRoute = $route.idRoute RETURN r", new {route}).ToList());
+                List<NodeRoute> list_routes = new List<NodeRoute>();
+                foreach (var record in routes)
                 {
-                    return Ok(routes);
+                    var nodeProps = JsonConvert.SerializeObject(record[0].As<INode>().Properties);
+                    list_routes.Add(JsonConvert.DeserializeObject<NodeRoute>(nodeProps));
+                }
+
+                if (list_routes.Count > 0)
+                {
+                    return Ok(list_routes[0]);
                 }
                 else
                 {
@@ -82,27 +109,29 @@ namespace ms_rutas_backend.Controllers
                 }
             }
         }
-        //Falla
+
         [HttpPost("getRouteIdById")]
         public IActionResult getRouteIdById([FromBody] NodeRoute route)
         {
-            using(var session = _driver.Session())
+            using (var session = _driver.Session())
             {
-                var routes = session.ReadTransaction(tx => tx.Run("MATCH (r:Route) WHERE r.idRoute = $route.idRoute RETURN id(r)", new { route }));
-                
+                var routes = session.ReadTransaction(tx =>
+                    tx.Run("MATCH (r:Route) WHERE r.idRoute = $route.idRoute RETURN id(r)", new {route}).ToList());
+
                 int idRoute = 0;
-                foreach(var r in routes)
+                foreach (var r in routes)
                 {
                     try
                     {
                         idRoute = r["id(r)"].As<int>();
                     }
-                    catch(KeyNotFoundException e)
+                    catch (KeyNotFoundException e)
                     {
                         idRoute = -1;
                     }
                 }
-                if(idRoute >= 0)
+
+                if (idRoute >= 0)
                 {
                     Dictionary<string, int> resp = new Dictionary<string, int>();
                     resp.Add("idNodeRoute", idRoute);
@@ -118,18 +147,24 @@ namespace ms_rutas_backend.Controllers
         [HttpGet("getRoutes")]
         public IActionResult getRoutes()
         {
-            using(var session = _driver.Session())
+            using (var session = _driver.Session())
             {
                 var routes = session.ReadTransaction(tx => tx.Run("MATCH (r:Route) RETURN r").ToList());
-                if (routes.Count > 0)
+                List<NodeRoute> list_routes = new List<NodeRoute>();
+                foreach (var record in routes)
                 {
-                    return Ok(routes);
+                    var nodeProps = JsonConvert.SerializeObject(record[0].As<INode>().Properties);
+                    list_routes.Add(JsonConvert.DeserializeObject<NodeRoute>(nodeProps));
+                }
+
+                if (list_routes.Count > 0)
+                {
+                    return Ok(list_routes);
                 }
                 else
                 {
                     return Conflict("No hay rutas disponibles");
                 }
-                
             }
         }
 
@@ -140,42 +175,43 @@ namespace ms_rutas_backend.Controllers
             if (route.startCity != null) query += "r.startCity = $route.startCity ,";
             if (route.arrivalCity != null) query += "r.arrivalCity = $route.arrivalCity ,";
             if (route.description != null) query += "r.description = $route.description ,";
-            if (route.latitudeStart != null ) query += "r.latitudeStart = $route.latitudeStart ,";
+            if (route.latitudeStart != null) query += "r.latitudeStart = $route.latitudeStart ,";
             if (route.longitudeStart != null) query += "r.longitudeStart = $route.longitudeStart ,";
             if (route.latitudeEnd != null) query += "r.latitudeEnd = $route.latitudeEnd ,";
             if (route.longitudeEnd != null) query += "r.longitudeEnd = $route.longitudeEnd ";
 
             query = query.TrimEnd(',');
 
-            using(var session = _driver.Session())
+            using (var session = _driver.Session())
             {
                 var response = session.WriteTransaction(tx =>
                 {
                     var result = tx.Run("MATCH (r:Route) " + "WHERE r.idRoute = $route.idRoute SET " +
                                         query +
                                         "RETURN r.message + ', from node ' + id(r)",
-                        new { route });
+                        new {route});
                     return result.Single()[0].As<string>();
                 });
             }
+
             return Ok("Ruta cambiada correctamente");
         }
 
         [HttpDelete("deleteRoute")]
         public IActionResult deleteRoute([FromBody] NodeRoute route)
         {
-            using(var session = _driver.Session())
+            using (var session = _driver.Session())
             {
                 var response = session.WriteTransaction(tx =>
                 {
                     var result = tx.Run("MATCH (r:Route) " + "WHERE r.idRoute = $route.idRoute " +
                                         "DELETE r",
-                        new { route });
+                        new {route});
                     return true;
                 });
             }
+
             return Ok();
         }
-
     }
 }

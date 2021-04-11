@@ -31,3 +31,4 @@ R:\Documentos\Unal\7mo Semestre\SwArch\Proyecto\ms-rutas-backend\ms-rutas-backen
 R:\Documentos\Unal\7mo Semestre\SwArch\Proyecto\ms-rutas-backend\ms-rutas-backend\obj\Debug\net5.0\ref\ms-rutas-backend.dll
 R:\Documentos\Unal\7mo Semestre\SwArch\Proyecto\ms-rutas-backend\ms-rutas-backend\obj\Debug\net5.0\ms-rutas-backend.pdb
 R:\Documentos\Unal\7mo Semestre\SwArch\Proyecto\ms-rutas-backend\ms-rutas-backend\obj\Debug\net5.0\ms-rutas-backend.genruntimeconfig.cache
+R:\Documentos\Unal\7mo Semestre\SwArch\Proyecto\ms-rutas-backend\ms-rutas-backend\bin\Debug\net5.0\Newtonsoft.Json.dll

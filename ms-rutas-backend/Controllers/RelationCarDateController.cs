@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using ms_rutas_backend.Data.Models;
 using ms_rutas_backend.Poco;
 using Neo4j.Driver;
@@ -15,12 +16,17 @@ namespace ms_rutas_backend.Controllers
     [ApiController]
     public class RelationCarDateController : ControllerBase
     {
-        private IDriver _driver = GraphDatabase.Driver("bolt://localhost:7687", AuthTokens.Basic("neo4j", "pass"));
-        public void Dispose()
+        private static IConfiguration _iConfiguration;
+        private IDriver _driver;
+
+        public RelationCarDateController(IConfiguration iConfiguration)
         {
-            _driver?.Dispose();
+            _iConfiguration = iConfiguration;
+            _driver = GraphDatabase.Driver(_iConfiguration.GetConnectionString("UriConnection"),
+                AuthTokens.Basic(_iConfiguration.GetConnectionString("UserConnection"),
+                    _iConfiguration.GetConnectionString("PasswordConnection")));
         }
-        
+
         [HttpPost("createRelationCarDay")] 
         public IActionResult createRelationCarDay([FromBody] CarDay rel_carday)
         {
