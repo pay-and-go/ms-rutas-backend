@@ -88,12 +88,13 @@ namespace ms_rutas_backend.Controllers
                 foreach (var record in cars)
                 {
                     var nodeProps = JsonConvert.SerializeObject(record[0].As<INode>().Properties);
+                    Debug.WriteLine(nodeProps);
                     list_cars.Add(JsonConvert.DeserializeObject<NodeCar>(nodeProps));
                 }
 
                 if(list_cars.Count > 0)
                 {
-                    return Ok(cars);
+                    return Ok(list_cars);
                 }
                 else
                 {
@@ -108,7 +109,7 @@ namespace ms_rutas_backend.Controllers
             using(var session = _driver.Session())
             {
                 var cars = session.ReadTransaction(tx => tx.Run("MATCH (c:Car) WHERE c.licenseCar = $car.licenseCar RETURN id(c)", new { car }).ToList());
-                int idCar = 0;
+                int idCar = -1;
                 foreach(var r in cars)
                 {
                     try
@@ -168,16 +169,43 @@ namespace ms_rutas_backend.Controllers
 
             using(var session = _driver.Session())
             {
-                var greeting = session.WriteTransaction(tx =>
+                var response = session.WriteTransaction(tx =>
                 {
                     var result = tx.Run("MATCH (c:Car) " + "WHERE c.licenseCar = $car.licenseCar SET " +
                                         query +
                                         "RETURN id(c)",
                         new { car });
-                    return 0;
+                    int idCar = -1;
+                    try
+                    {
+                        foreach(var r in result)
+                        {
+                            try
+                            {
+                                idCar = r["id(c)"].As<int>();
+                            }
+                            catch(KeyNotFoundException e)
+                            {
+                                idCar = -1;
+                            }
+                        }
+                    }
+                    catch(ClientException e)
+                    {
+                        idCar = -1;
+                    }
+                    return idCar;
                 });
+                if(response >= 0)
+                {
+                    return Ok("Auto modificado correctamente");
+                }
+                else
+                {
+                    return Conflict("El auto no existe");
+                }
             }
-            return Ok("Auto modificado correctamente");
+            
         }
 
         [HttpDelete("deleteCar")]

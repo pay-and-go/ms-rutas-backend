@@ -13,14 +13,15 @@ namespace ms_rutas_backend.Data.Models
         [JsonPropertyName("description")]
         public string description { get; set; }
         [JsonPropertyName("latitudeStart")]
-        public string latitudeStart { get; set; }
+        public double latitudeStart { get; set; }
         [JsonPropertyName("longitudeStart")]
-        public string longitudeStart { get; set; }
+        public double longitudeStart { get; set; }
         [JsonPropertyName("latitudeEnd")]
-        public string latitudeEnd { get; set; }
+        public double latitudeEnd { get; set; }
         [JsonPropertyName("longitudeEnd")]
-        public string longitudeEnd { get; set; }
-        public NodeRoute(string idRoute, string startCity, string arrivalCity, string description, string latitudeStart, string longitudeStart, string latitudeEnd, string longitudeEnd)
+        public double longitudeEnd { get; set; }
+
+        public NodeRoute(string idRoute, string startCity, string arrivalCity, string description, double latitudeStart, double longitudeStart, double latitudeEnd, double longitudeEnd)
         {
             this.idRoute = idRoute;
             this.startCity = startCity;
@@ -30,6 +31,12 @@ namespace ms_rutas_backend.Data.Models
             this.longitudeStart = longitudeStart;
             this.latitudeEnd = latitudeEnd;
             this.longitudeEnd = longitudeEnd;
+        }
+
+        public override string ToString()
+        {
+            return idRoute + " " + startCity + " " + arrivalCity + " " + description + " " + longitudeStart + " " +
+                   latitudeStart;
         }
     }
 }

@@ -79,14 +79,13 @@ namespace ms_rutas_backend.Controllers
                 }
                 else
                 {
-                    return Conflict("Esta ruta ya existe");
+                    return Conflict("La ruta con este id ya existe");
                 }
             }
         }
 
-
         [HttpPost("getRouteById")]
-        public IActionResult getRouteById([FromBody] NodeRoute route)
+        public IActionResult routeById([FromBody] NodeRoute route)
         {
             using (var session = _driver.Session())
             {
@@ -110,7 +109,7 @@ namespace ms_rutas_backend.Controllers
             }
         }
 
-        [HttpPost("getRouteIdById")]
+        [HttpGet("getRouteIdById")]
         public IActionResult getRouteIdById([FromBody] NodeRoute route)
         {
             using (var session = _driver.Session())
@@ -175,26 +174,45 @@ namespace ms_rutas_backend.Controllers
             if (route.startCity != null) query += "r.startCity = $route.startCity ,";
             if (route.arrivalCity != null) query += "r.arrivalCity = $route.arrivalCity ,";
             if (route.description != null) query += "r.description = $route.description ,";
-            if (route.latitudeStart != null) query += "r.latitudeStart = $route.latitudeStart ,";
-            if (route.longitudeStart != null) query += "r.longitudeStart = $route.longitudeStart ,";
-            if (route.latitudeEnd != null) query += "r.latitudeEnd = $route.latitudeEnd ,";
-            if (route.longitudeEnd != null) query += "r.longitudeEnd = $route.longitudeEnd ";
+            if (route.latitudeStart != 0.0) query += "r.latitudeStart = $route.latitudeStart ,";
+            if (route.longitudeStart != 0.0) query += "r.longitudeStart = $route.longitudeStart ,";
+            if (route.latitudeEnd != 0.0) query += "r.latitudeEnd = $route.latitudeEnd ,";
+            if (route.longitudeEnd != 0.0) query += "r.longitudeEnd = $route.longitudeEnd ";
 
             query = query.TrimEnd(',');
 
             using (var session = _driver.Session())
             {
                 var response = session.WriteTransaction(tx =>
+                    {
+                        var result = tx.Run("MATCH (r:Route) " + "WHERE r.idRoute = $route.idRoute SET " +
+                                            query +
+                                            "RETURN id(r)",
+                            new {route});
+                        int idRoute = -1;
+                        foreach(var r in result)
+                        {
+                            try
+                            {
+                                idRoute = r["id(r)"].As<int>();
+                            }
+                            catch(KeyNotFoundException e)
+                            {
+                                idRoute = -1;
+                            }
+                        }
+                        return idRoute;
+                    });
+                Debug.WriteLine(response);
+                if(response >= 0)
                 {
-                    var result = tx.Run("MATCH (r:Route) " + "WHERE r.idRoute = $route.idRoute SET " +
-                                        query +
-                                        "RETURN r.message + ', from node ' + id(r)",
-                        new {route});
-                    return result.Single()[0].As<string>();
-                });
+                    return Ok("Ruta cambiada correctamente");
+                }
+                else
+                {
+                    return Conflict("La ruta no existe");
+                }
             }
-
-            return Ok("Ruta cambiada correctamente");
         }
 
         [HttpDelete("deleteRoute")]
@@ -211,7 +229,7 @@ namespace ms_rutas_backend.Controllers
                 });
             }
 
-            return Ok();
+            return Ok("Nodo eliminado correctamente");
         }
     }
 }

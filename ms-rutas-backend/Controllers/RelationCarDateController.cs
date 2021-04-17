@@ -194,7 +194,7 @@ namespace ms_rutas_backend.Controllers
 
                     return 0;
                 });
-                return Ok();
+                return Ok("Relacion eliminada");
             }
         }
 
